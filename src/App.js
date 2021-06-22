@@ -1,25 +1,83 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import TeamList from "./components/TeamList";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actionCreators from './actions/index';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+
+function mapStateToProps(state) {
+  return {
+    teams: state.teams
+  }
 }
 
-export default App;
+function mapDispachToProps(dispatch) {
+  return bindActionCreators(actionCreators, dispatch);
+}
+
+const styles = theme => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+  }
+
+});
+
+class App extends React.Component {
+
+  updatePlayer = index => {
+    this.props.history.push(`/edit-player/${index}`);
+  }
+
+  deletePlayer = index => {
+    this.props.removePlayer(index);
+  }
+
+  add = () => {
+    this.props.history.push(`/add`);
+  }
+
+  render() {
+
+    const { classes } = this.props;
+
+    return (
+      <div>
+
+        <AppBar position="static" color="primary">
+          <Toolbar>
+            <Typography variant="h6" color="inherit">
+              Welcome to Sports League
+          </Typography>
+          </Toolbar>
+        </AppBar>
+
+        <TeamList {...this.props} teams={this.props.teams} deletePlayer={this.deletePlayer} updatePlayer={this.updatePlayer} />
+
+        <Fab onClick={() => this.add()} className={classes.fab} color="primary" aria-label="Add">
+          <AddIcon />
+        </Fab>
+
+      </div>
+    );
+
+  }
+}
+
+const Main = connect(mapStateToProps, mapDispachToProps)(App);
+
+export default withStyles(styles)(Main);
+

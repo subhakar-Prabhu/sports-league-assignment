@@ -1,9 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { connect } from 'react-redux'
-
 import { addPlayer } from '../actions/index';
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -66,7 +63,7 @@ class AddTeam extends React.Component {
                             <BackIcon />
                         </IconButton>
                         <Typography variant="h6" color="inherit">
-                            Add Player
+                            Create Teams
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -75,7 +72,7 @@ class AddTeam extends React.Component {
 
                     <Input className={classes.textField} fullWidth name="name" inputRef={this.nameRef} type="text" placeholder="Name" />
                     <Button fullWidth type="submit" variant="contained" color="primary" className={classes.button}>
-                        Add Player
+                      Create Teams
                     </Button>
 
                 </form>
